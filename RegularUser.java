@@ -1,5 +1,11 @@
 class RegularUser extends User
-                         implements Borrowable {
+                  implements Borrowable {
+    
+    public RegularUser (String name) {
+        super(name);
+    }
+
+
     
     public void viewBookCatalog () {
 

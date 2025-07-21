@@ -16,28 +16,59 @@ enum Genre {
     }
 }
 
+
+enum BookAttribute {
+    ID,
+    TITLE,
+    AUTHOR,
+    GENRE,
+    NO_AVAILABLE_COPIES;
+}
+
+
 class Book {
     private String id;
     public String title;
     public String author;
     public Genre genre;
-    private int noAvailableCopies;
+    private int no_availableCopies;
 
 
 
-    public Book(String author, Genre genre, String id, int noAvailableCopies, String title) {
+    //to be removed
+    public Book () {}
+
+    public Book(String id, String title, String author, Genre genre, int no_availableCopies) {
+        this(title, author, genre, no_availableCopies);
+        this.id = id;
+    }
+
+    public Book(String title, String author, Genre genre, int no_availableCopies) {
         this.author = author;
         this.genre = genre;
-        this.id = id;
-        this.noAvailableCopies = noAvailableCopies;
+        this.no_availableCopies = no_availableCopies;
         this.title = title;
+
+        //connect to DB and insert the book??
     }
+
+
 
     public String getId() {
         return id;
     }
 
     public int getNoAvailableCopies() {
-        return noAvailableCopies;
+        return no_availableCopies;
+    }
+
+
+    
+    public void setId(String newValue) {
+        this.id = newValue;
+    }
+
+    public void setNoAvailableCopies(int newValue) {
+        this.no_availableCopies = newValue;
     }
 } 
