@@ -12,16 +12,16 @@ enum UserRole {
 abstract class User {
     private static long noUsers = 1;
 
-    private String id;
+    protected String id;
     public String name;
-    private Set<String> borrowedBooks = new LinkedHashSet<>(); //used LinkedHashSet in case it's required to keep trach of the order at which the user borrowed their books
+    protected Set<String> borrowedBooksIDs = new LinkedHashSet<>(); //used LinkedHashSet in case it's required to keep trach of the order at which the user borrowed their books
 
 
 
     public User (String name) {
         this.id = idGenerator();
         this.name = name;
-        borrowedBooks = null;
+        borrowedBooksIDs = null;
 
         noUsers++;
     }

@@ -1,4 +1,4 @@
 interface Borrowable {
-    public boolean borrowBook(String bookId);
-    public boolean returnBook(String bookId);
+    public void borrowBook(String bookId);
+    public void returnBook(String bookId);
 }
