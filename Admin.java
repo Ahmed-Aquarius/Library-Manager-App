@@ -1,63 +1,54 @@
 class Admin extends User {
 
-    public Admin (String name) {
-        super(name);
+    private static int no_admins = 1;
+
+
+    
+    public Admin (String password, String name) {
+        super(password, name);
+        this.id = generateID();
+
+        no_admins++;
     }
 
 
 
-    public void addBook (String id, String title, String author, Genre genre, int noAvailableCopies) {
+    @Override
+    protected String generateID () {
+        return "AD" + String.valueOf(no_admins);
+    }
+
+
+
+    public boolean addBook (String id, String title, String author, Genre genre, int noAvailableCopies) {
         Book newBook = new Book(id, title, author, genre, noAvailableCopies);
-        //add to list of books in the library manager?
+        return db.createBook(newBook);
     }
 
-    public void addBook (String title, String author, Genre genre, int noAvailableCopies) {
+    public boolean addBook (String title, String author, Genre genre, int noAvailableCopies) {
         Book newBook = new Book(title, author, genre, noAvailableCopies); 
-        //add to list of books in the library manager?
+        return db.createBook(newBook);
     }
 
-    public <T> void editBook (String bookID, BookAttribute attribute, T newValue) {
-        Book targetBook = new Book(); //instead, do a function that retreives the book with its ID
-        
-        switch (attribute)
-        {
-            case ID:
-                targetBook.setId((String) newValue);
-                break;
-            case TITLE:
-                targetBook.title = (String) newValue;
-                break;
-            case AUTHOR:
-                targetBook.author = (String) newValue;
-                break;
-            case GENRE:
-                targetBook.genre = (Genre) newValue;
-                break;
-            case NO_AVAILABLE_COPIES:
-                targetBook.setNoAvailableCopies((int) newValue);
-                break;
-        }
-
-        //save the book in the DB
-        //apply any changes in the manager
+    public <T> boolean editBook (String bookID, ModifiableBookAttribute attribute, T newValue) {
+        return db.editBook(bookID, attribute, newValue);
     }
 
-    public void deleteBook (String bookID) {
-        //delete the book from the DB
-        //delete it from the manager
+    public boolean deleteBook (String bookID) {
+        return db.deleteBook(bookID);
     }
 
 
 
-    public void registerUser (String name, UserRole role) {
-        User newUser;
+    public boolean registerUser (String name, String password, UserRole role) {
+        User newUser = null;
 
         switch (role)
         {
-            case ADMIN -> newUser = new Admin(name);
-            case REGULAR_USER -> newUser = new RegularUser(name);
+            case ADMIN -> newUser = new Admin(name, password);
+            case REGULAR_USER -> newUser = new RegularUser(name, password);
         }
 
-        //store in DB with the role
+        return db.createUser(newUser);
     }
 }

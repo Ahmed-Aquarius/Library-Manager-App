@@ -10,25 +10,38 @@ enum UserRole {
 
 
 abstract class User {
-    private static long noUsers = 1;
 
-    protected String id;
+    protected static final DB_Manager db;
+
+
+
+    static {
+        db = DB_Manager.getInstance();
+    }
+
+
+
+    public String id;    //also acts as a username
+    protected String password;
     public String name;
     protected Set<String> borrowedBooksIDs = new LinkedHashSet<>(); //used LinkedHashSet in case it's required to keep trach of the order at which the user borrowed their books
 
 
 
-    public User (String name) {
-        this.id = idGenerator();
+    public User (String password, String name) {
+        this.id = null;
+        this.password = password;
         this.name = name;
         borrowedBooksIDs = null;
-
-        noUsers++;
     }
 
 
 
-    private static String idGenerator () {
-        return String.valueOf(noUsers);
+    public String getPassword() {
+        return password;
     }
+
+
+
+    protected abstract String generateID ();
 }

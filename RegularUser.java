@@ -1,13 +1,23 @@
 class RegularUser extends User
                   implements Borrowable {
     
-    public RegularUser (String name) {
-        super(name);
+    private static int no_regularUsers = 1;
+
+
+
+    public RegularUser (String password, String name) {
+        super(password, name);
+        this.id = generateID();
+
+        no_regularUsers++;
     }
+                
 
 
-
-    //view book catalog (in menu class)
+    @Override
+    protected String generateID () {
+        return "RU" + String.valueOf(no_regularUsers);
+    }
 
 
 
@@ -18,14 +28,13 @@ class RegularUser extends User
             throw new BookAlreadyBorrowedException("this book is already borrowed");
         }
 
-        int no_availableCopies = 0; //get it from the DB instead
-        if (no_availableCopies <= 0)
+        Book targetBook = db.retreiveBook(bookId);
+        if (targetBook.getNoAvailableCopies() <= 0)
         {
             throw new NoAvailableCopiesException("no available copies left");
         }
 
-        borrowedBooksIDs.add(bookId);
-        //save the no_availableCopies - 1 in DB
+        reflectBorrow(targetBook);
     }
 
     @Override
@@ -35,9 +44,25 @@ class RegularUser extends User
             throw new ReturnUnborrowedBookException("this book wasn't borrowed already");
         }
 
-        borrowedBooksIDs.remove(bookId);
-        //increment the available copies in DB
+        Book targetBook = db.retreiveBook(bookId);
+
+        reflectReturn(targetBook);
     }
+
+
+
+    private void reflectBorrow (Book targetBook) {
+        borrowedBooksIDs.add(targetBook.getId());
+
+        db.editBook(targetBook.getId(), ModifiableBookAttribute.NO_AVAILABLE_COPIES, targetBook.getNoAvailableCopies() - 1);
+    }
+
+    private void reflectReturn (Book targetBook) {
+        borrowedBooksIDs.remove(targetBook.getId());
+
+        db.editBook(targetBook.getId(), ModifiableBookAttribute.NO_AVAILABLE_COPIES, targetBook.getNoAvailableCopies() + 1);
+    }
+
 }
 
 
@@ -49,13 +74,11 @@ class BookAlreadyBorrowedException extends RuntimeException {
 }
 
 
-
 class NoAvailableCopiesException extends RuntimeException {
     public NoAvailableCopiesException(String message) {
         super(message);
     }
 }
-
 
 
 class ReturnUnborrowedBookException extends RuntimeException {
