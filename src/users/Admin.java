@@ -1,33 +1,32 @@
-class Admin extends User {
+package users;
 
-    private static int no_admins = 1;
+import books.Book;
+import books.Genre;
+import books.ModifiableBookAttribute;
+import java.util.Set;
 
+public class Admin extends User {
 
-    
+    //this constructor is only used when a user is retreived from the DB only, so it doesn't increase the actual number of users in the DB
+    public Admin (String id, String password, String name, Set<String> borrowedBooksIDs) {
+        super(id, password, name, borrowedBooksIDs);
+    }
+
     public Admin (String password, String name) {
         super(password, name);
         this.id = generateID();
-
-        no_admins++;
     }
 
-
-
-    @Override
-    protected String generateID () {
-        return "AD" + String.valueOf(no_admins);
-    }
-
-
+    
 
     public boolean addBook (String id, String title, String author, Genre genre, int noAvailableCopies) {
         Book newBook = new Book(id, title, author, genre, noAvailableCopies);
-        return db.createBook(newBook);
+        return db.addBook(newBook);
     }
 
     public boolean addBook (String title, String author, Genre genre, int noAvailableCopies) {
         Book newBook = new Book(title, author, genre, noAvailableCopies); 
-        return db.createBook(newBook);
+        return db.addBook(newBook);
     }
 
     public <T> boolean editBook (String bookID, ModifiableBookAttribute attribute, T newValue) {
@@ -40,13 +39,13 @@ class Admin extends User {
 
 
 
-    public boolean registerUser (String name, String password, UserRole role) {
+    public boolean registerUser (String password, String name, UserRole role) {
         User newUser = null;
 
         switch (role)
         {
-            case ADMIN -> newUser = new Admin(name, password);
-            case REGULAR_USER -> newUser = new RegularUser(name, password);
+            case ADMIN -> newUser = new Admin(password, name);
+            case REGULAR_USER -> newUser = new RegularUser(password, name);
         }
 
         return db.createUser(newUser);
