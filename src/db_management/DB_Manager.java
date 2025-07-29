@@ -21,12 +21,13 @@ public class DB_Manager {
 
 
     public DB_Manager() throws DB_ConnectionErrorException {
-        //this.url = "jdbc:mysql://" + host + ":" + port + "/" + db_name;
-        this.url = "jdbc:mysql://mysql-db:3306/library_manager";
+        this.url = "jdbc:mysql://" + host + ":" + port + "/" + db_name;
+        //this.url = "jdbc:mysql://mysql-db:3306/library_manager?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
         try {
-            this.conn = DriverManager.getConnection(this.url, "Ahmed", "1234");
+            this.conn = DriverManager.getConnection(this.url, username, password);
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new DB_ConnectionErrorException("error connecting to the database");
         }
     }
