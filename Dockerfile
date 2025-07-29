@@ -1,7 +1,5 @@
-FROM openjdk:latest
+FROM openjdk:22
 
-COPY target/app.jar /app/app.jar
+COPY target/app.jar app/app.jar
 
-ENTRYPOINT ["java", "-jar"]
-
-CMD ["app.jar"]
+ENTRYPOINT ["sh", "-c", "sleep 18 && java -jar app/app.jar"]

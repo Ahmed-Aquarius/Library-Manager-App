@@ -15,18 +15,17 @@ public class DB_Manager {
     private final String host = System.getenv("DB_HOST");
     private final String port = System.getenv("DB_PORT");
 
-
     private String url;
 
     private Connection conn;
 
 
-
     public DB_Manager() throws DB_ConnectionErrorException {
-        this.url = "jdbc:mysql://" + host + ":" + port + "/" + db_name;
+        //this.url = "jdbc:mysql://" + host + ":" + port + "/" + db_name;
+        this.url = "jdbc:mysql://mysql-db:3306/library_manager";
 
         try {
-            this.conn = DriverManager.getConnection(this.url, this.username, this.password);
+            this.conn = DriverManager.getConnection(this.url, "Ahmed", "1234");
         } catch (SQLException e) {
             throw new DB_ConnectionErrorException("error connecting to the database");
         }
