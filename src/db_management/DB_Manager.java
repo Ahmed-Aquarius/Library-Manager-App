@@ -9,9 +9,12 @@ import users.*;
 
 
 public class DB_Manager {
-    private final String username = "Ahmed";
-    private final String password = "1234";
-    private final String db_name = "library_manager";
+    private final String username = System.getenv("DB_USER");
+    private final String password = System.getenv("DB_PASSWORD");;
+    private final String db_name = System.getenv("DB_NAME");
+    private final String host = System.getenv("DB_HOST");
+    private final String port = System.getenv("DB_PORT");
+
 
     private String url;
 
@@ -20,7 +23,7 @@ public class DB_Manager {
 
 
     public DB_Manager() throws DB_ConnectionErrorException {
-        this.url = "jdbc:mysql://localhost:3306/" + this.db_name;
+        this.url = "jdbc:mysql://" + host + ":" + port + "/" + db_name;
 
         try {
             this.conn = DriverManager.getConnection(this.url, this.username, this.password);
