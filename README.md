@@ -14,7 +14,7 @@ The app is developed in **Java verision 22**, and connects to a **MySQL** databa
 ## 2. Setup Instructions
 
 ### 2.1 Prerequisites
-1. You need to have Docker installed on you machine. You can download it from the "Download Docker Desktop" button found at the top of the [official page](https://www.docker.com/products/docker-desktop/){:target="_blank"}
+1. You need to have Docker installed on you machine. You can download it from the "Download Docker Desktop" button found at the top of the [official page](https://www.docker.com/products/docker-desktop/)
 
 2. (Optional) You can install git on you machine too. It will be a valuable tool for cloning from online repos generally, but you can also not download it and everything will be setup perfectly.  
 
@@ -43,16 +43,16 @@ If you chose not to download git, then:
 4. your _.env_ file should now look like this:
 
 <pre>
-> DB_HOST=mysql-db
-> DB_PORT=3306
-> DB_NAME=library_manager
-> DB_USER=user
-> DB_PASSWORD=pass
+DB_HOST=mysql-db
+DB_PORT=3306
+DB_NAME=library_manager
+DB_USER=user
+DB_PASSWORD=pass
 </pre>
 
 5. replace "user" with your database username, and "pass" with your database password
 
-### 2.2.3 Run the Docker Containers
+#### 2.2.3 Run the Docker Containers
 1. open any terminal, and navigate to the Library-Manager-App directory
 2. run:
 
@@ -70,18 +70,18 @@ Note: The app may take a few seconds to run after executing the above command
 
 ## 3. Access Instructions
 There are two points of access for this app, both of which can be accessed only after the full and successful setting up:
-1. the terminal on which the app is run: that's the main method of accessing. You can view the meny and interact and use the features of the app from there
+1. the terminal on which the app is run: that's the main method of accessing. You can view the menu and interact and use the features of the app from there
 
-2. Adminer: This is a web database management tool that allows you to view the real-time contents of the database and directly manipulte it if you want. You an access it by going to [http://localhost:8080/](http://localhost:8080/){:target="_blank"}
+2. Adminer: This is a web database management tool that allows you to view the real-time contents of the database and directly manipulte it if you want. You an access it by going to [http://localhost:8080/](http://localhost:8080/)
 
 You will be presented with a login-like form. Enter the values below:
 
 <pre>
-> System: MySQL/MariaDB
-> Server: mysql-db
-> Username: <your username>
-> Password: <your password>
-> Database: library_manager
+System: MySQL/MariaDB
+Server: mysql-db
+Username: your_username
+Password: your_password
+Database: library_manager
 </pre>
 
-replacing the values surrrounded with <> with the values you entered for the same fields in the _.env_ file.
+replacing the values of your_username and your_password with the values you entered for the same fields in the _.env_ file.
