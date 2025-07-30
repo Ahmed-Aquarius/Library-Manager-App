@@ -1,0 +1,39 @@
+services:
+  mysql-db:
+    image: mysql:8.0.42
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: Ahmed
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: library_manager
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-DB:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d
+
+  app:
+    build: ./app
+    container_name: app
+    stdin_open: true
+    tty: true 
+    environment:
+      DB_HOST: mysql-db
+      DB_PORT: 3306
+      DB_NAME: library_manager
+      DB_USER: Ahmed
+      DB_PASSWORD: 1234
+    depends_on:
+      - mysql-db
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+
+volumes:
+  mysql-DB:
